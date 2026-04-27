@@ -1,0 +1,563 @@
+Esse arquivo vai explicar como cada linha da classe JogoUI.java funcionan toda explicação feita pelo Claude.
+- Fellipe
+
+
+## Pacote e imports
+
+java
+package PrefeitoSimulator;
+
+Diz que essa classe faz parte do grupo `PrefeitoSimulator`. Agrupa arquivos relacionados.
+
+java
+import javax.swing.*;
+
+Importa tudo que o Swing oferece — janelas, botões, caixas de texto, barras etc.
+
+java
+import java.awt.BorderLayout;
+
+Importa o layout que divide o espaço em 5 regiões: norte, sul, leste, oeste e centro.
+
+java
+import java.awt.CardLayout;
+
+Importa o layout que empilha painéis e mostra um de cada vez — como virar uma carta.
+
+java
+import java.awt.Color;
+
+Importa a classe que representa cores.
+
+java
+import java.awt.Dimension;
+
+Importa a classe que representa tamanho (largura x altura).
+
+java
+import java.awt.Font;
+
+Importa a classe que representa fonte de texto.
+
+java
+import java.awt.Graphics;
+
+Importa a classe que permite desenhar coisas na tela — imagens, retângulos, cores etc.
+
+java
+import java.awt.GridLayout;
+
+Importa o layout que organiza componentes em grade — linhas e colunas.
+
+java
+import java.awt.Image;
+
+Importa o tipo que representa uma imagem carregada na memória.
+
+---
+
+## Constantes
+
+java
+private static final Color COR_BLOCO = new Color(30, 30, 30, 210);
+
+Cor do bloco central. Os três primeiros números são vermelho, verde e azul — todos baixos resultam num cinza escuro. O `210` é a transparência: `255` é totalmente sólido, `0` é invisível. `210` deixa a imagem do fundo aparecer levemente por trás.
+
+java
+private static final Color COR_EVENTO = new Color(45, 45, 45);
+
+Cor de fundo da caixa de texto. Cinza um pouco mais claro que o bloco. Sem transparência — evita o problema de texto fantasma que acontecia antes.
+
+java
+private static final Color COR_BOTAO = new Color(70, 130, 180);
+
+Azul aço dos botões. Totalmente sólido.
+
+java
+private static final int LIMITE_VERDE   = 70;
+private static final int LIMITE_AMARELO = 30;
+
+Números usados para decidir a cor das barras. Acima de 70 fica verde, entre 30 e 70 fica amarelo, abaixo de 30 fica vermelho.
+
+java
+private static final int LARGURA_LATERAL = 250;
+
+Largura em pixels dos espaços vazios nas laterais — define quanto da imagem de fundo aparece em cada lado.
+
+---
+
+## Atributos da classe
+
+java
+private Jogo jogo;
+
+Guarda a referência ao objeto `Jogo` — é por aqui que a UI lê os dados como aprovação, economia etc.
+
+java
+private JFrame janela;
+
+A janela principal do programa.
+
+java
+private JLabel labelStatus;
+
+Pequeno texto que mostra o número da rodada atual.
+
+java
+private JTextArea textoEvento;
+
+Caixa de texto onde aparece a descrição do evento e a consequência da escolha.
+
+java
+private JProgressBar barAmbiente, barEconomia, barPopulacao, barAprovacao;
+
+As quatro barras de progresso que ficam no topo.
+
+java
+private JButton[] botoes;
+
+Lista com os 3 botões de escolha.
+
+java
+private JButton botaoProximo;
+
+Botão "Próxima Rodada" que aparece após o jogador fazer uma escolha.
+
+java
+private Evento eventoAtual;
+
+Guarda o evento que está sendo exibido no momento.
+
+java
+private CardLayout cardBotoes;
+
+O gerenciador que controla qual painel de botões está visível — o dos três ou o do próximo.
+
+java
+private JPanel painelBotoes;
+
+O painel que contém os dois cards empilhados. Só um aparece por vez.
+
+---
+
+## Construtor
+
+java
+public JogoUI(Jogo jogo) {
+    this.jogo = jogo;
+}
+
+Recebe o objeto `Jogo` de fora e salva. Sem isso a UI não teria de onde buscar os dados do jogo.
+
+---
+
+## iniciar()
+
+java
+janela = new JFrame("Prefeito Simulator");
+
+Cria a janela com o título "Prefeito Simulator".
+
+java
+UIManager.put("ProgressBar.selectionForeground", Color.BLACK);
+UIManager.put("ProgressBar.selectionBackground", Color.BLACK);
+
+Força a cor do texto dentro das barras de progresso para preto. Sem isso, o Swing escolhe cores diferentes dependendo do sistema operacional.
+
+java
+janela.setMinimumSize(new Dimension(800, 600));
+
+A janela não pode ser redimensionada para menos de 800 de largura por 600 de altura.
+
+java
+janela.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+Abre a janela já em tela cheia.
+
+java
+janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+Encerra o programa quando a janela for fechada.
+
+java
+JPanel fundoPainel = new JPanel(new BorderLayout()) {
+
+Cria um painel com `BorderLayout` usando uma classe anônima — uma versão customizada de `JPanel` sem precisar criar um arquivo separado.
+
+java
+    Image img = new ImageIcon("PrefeitoSimulator/imagens/cidade.jpg").getImage();
+
+Carrega a imagem do disco. `ImageIcon` lê o arquivo e `.getImage()` converte para o tipo `Image` que o Java usa para desenhar.
+
+java
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+Sobrescreve o método chamado toda vez que o painel precisa ser redesenhado. `super.paintComponent(g)` limpa o painel antes de qualquer coisa — evita resíduos visuais.
+
+java
+        g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
+    }
+};
+
+Desenha a imagem começando no canto superior esquerdo (0,0) e esticando até cobrir a largura e altura totais do painel.
+
+java
+JPanel espacoEsquerda = new JPanel();
+espacoEsquerda.setOpaque(false);
+espacoEsquerda.setPreferredSize(new Dimension(LARGURA_LATERAL, 0));
+
+Painel vazio de 250px de largura no lado esquerdo. `setOpaque(false)` o torna transparente — a imagem do fundo aparece atrás. O `0` na altura é ignorado porque o `BorderLayout` já controla isso.
+
+java
+JPanel espacoDireita = new JPanel();
+espacoDireita.setOpaque(false);
+espacoDireita.setPreferredSize(new Dimension(LARGURA_LATERAL, 0));
+
+Mesma coisa para o lado direito.
+
+java
+JPanel blocoJogo = new JPanel(new BorderLayout()) {
+    @Override
+    protected void paintComponent(Graphics g) {
+        g.setColor(COR_BLOCO);
+        g.fillRect(0, 0, getWidth(), getHeight());
+        super.paintComponent(g);
+    }
+};
+
+O bloco central que contém tudo do jogo. Também usa classe anônima para sobrescrever `paintComponent` — pinta o retângulo escuro semitransparente manualmente antes dos filhos aparecerem. Isso evita o problema do ghosting com cores que têm transparência.
+
+java
+blocoJogo.setOpaque(false);
+
+Diz ao Swing que esse painel não pinta um fundo sólido sozinho — quem faz isso é o `paintComponent` acima.
+
+java
+blocoJogo.add(criarPainelTopo(),   BorderLayout.NORTH);
+blocoJogo.add(criarPainelEvento(), BorderLayout.CENTER);
+blocoJogo.add(criarPainelBotoes(), BorderLayout.SOUTH);
+
+Adiciona as três seções do jogo dentro do bloco — barras no topo, texto no meio, botões na base.
+
+java
+fundoPainel.add(espacoEsquerda, BorderLayout.WEST);
+fundoPainel.add(blocoJogo,      BorderLayout.CENTER);
+fundoPainel.add(espacoDireita,  BorderLayout.EAST);
+
+Monta a tela: espaço transparente na esquerda, bloco do jogo no centro, espaço transparente na direita. A imagem aparece atrás dos espaços transparentes.
+
+java
+janela.setContentPane(fundoPainel);
+
+Substitui o painel padrão da janela pelo `fundoPainel`. Tudo que foi colocado nele vira a interface da janela.
+
+java
+carregarEvento();
+janela.setVisible(true);
+
+Carrega o primeiro evento antes de mostrar a janela — evita a tela piscar vazia no início.
+
+---
+
+## criarPainelTopo()
+
+java
+JPanel topContainer = new JPanel(new BorderLayout());
+topContainer.setOpaque(false);
+
+Painel transparente que organiza as barras e o label de status.
+
+java
+JPanel statsPanel = new JPanel(new GridLayout(4, 1, 5, 5));
+statsPanel.setOpaque(false);
+statsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 5, 10));
+
+Grade de 4 linhas e 1 coluna para as barras. Os `5, 5` são o espaço entre elas. A borda cria uma margem interna de 10px em cima, 10 na esquerda, 5 embaixo, 10 na direita.
+
+java
+barAmbiente  = criarBarra();
+barEconomia  = criarBarra();
+barPopulacao = criarBarra();
+barAprovacao = criarBarra();
+
+Cria as quatro barras usando o método auxiliar.
+
+java
+statsPanel.add(barAmbiente);
+statsPanel.add(barEconomia);
+statsPanel.add(barPopulacao);
+statsPanel.add(barAprovacao);
+
+Adiciona as barras na grade. A ordem define quem aparece primeiro — de cima para baixo.
+
+java
+labelStatus = new JLabel("", SwingConstants.CENTER);
+labelStatus.setForeground(Color.WHITE);
+labelStatus.setFont(new Font("Arial", Font.BOLD, 14));
+labelStatus.setBorder(BorderFactory.createEmptyBorder(5, 0, 10, 0));
+
+Texto de status centralizado, branco, Arial negrito tamanho 14, com margem de 5px em cima e 10px embaixo.
+
+java
+topContainer.add(statsPanel,  BorderLayout.NORTH);
+topContainer.add(labelStatus, BorderLayout.CENTER);
+return topContainer;
+
+Barras no topo, status logo abaixo. Retorna o painel pronto.
+
+---
+
+## criarPainelEvento()
+
+java
+textoEvento = new JTextArea();
+textoEvento.setEditable(false);
+
+Caixa de texto que o jogador não pode digitar — só leitura.
+
+java
+textoEvento.setLineWrap(true);
+textoEvento.setWrapStyleWord(true);
+
+Quebra de linha automática. `setWrapStyleWord(true)` garante que a quebra acontece entre palavras inteiras, nunca no meio de uma palavra.
+
+java
+textoEvento.setFont(new Font("Arial", Font.BOLD, 18));
+textoEvento.setBackground(COR_EVENTO);
+textoEvento.setForeground(Color.WHITE);
+textoEvento.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+return textoEvento;
+
+Define fonte, cor de fundo, cor do texto e margem interna de 20px em todos os lados. Retorna a caixa pronta.
+
+---
+
+## criarPainelBotoes()
+
+java
+cardBotoes   = new CardLayout();
+painelBotoes = new JPanel(cardBotoes);
+painelBotoes.setOpaque(false);
+
+Cria o `CardLayout` e o painel que ele controla. Transparente para não cobrir o fundo.
+
+java
+JPanel cardEscolha = new JPanel(new GridLayout(3, 1, 10, 10));
+cardEscolha.setOpaque(false);
+cardEscolha.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+Primeiro card — grade de 3 linhas para os botões de escolha. Transparente, com margem de 10px.
+
+java
+botoes = new JButton[3];
+for (int i = 0; i < botoes.length; i++) {
+    int index = i;
+
+Cria a lista de 3 botões. O `int index = i` é necessário porque dentro do lambda a variável precisa ser fixa — `i` muda a cada volta do loop, `index` não.
+
+java
+    botoes[i] = new JButton();
+    estilizarBotao(botoes[i]);
+    botoes[i].addActionListener(e -> escolher(index));
+    cardEscolha.add(botoes[i]);
+}
+
+Cria cada botão, estiliza, define que ao clicar chama `escolher()` passando qual botão foi clicado, e adiciona ao card.
+
+java
+JPanel cardProximo = new JPanel(new GridLayout(3, 1, 10, 10));
+cardProximo.setOpaque(false);
+cardProximo.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+Segundo card — também uma grade de 3 linhas, mas só o botão do meio será visível.
+
+java
+botaoProximo = new JButton("Próxima Rodada");
+estilizarBotao(botaoProximo);
+botaoProximo.addActionListener(e -> carregarEvento());
+
+Cria o botão "Próxima Rodada", estiliza e define que ao clicar chama `carregarEvento()`.
+
+java
+JPanel vazio1 = new JPanel(); vazio1.setOpaque(false);
+JPanel vazio2 = new JPanel(); vazio2.setOpaque(false);
+
+Dois painéis vazios e transparentes. Servem de espaçador — um vai acima e outro abaixo do botão, empurrando ele para o meio.
+
+java
+cardProximo.add(vazio1);
+cardProximo.add(botaoProximo);
+cardProximo.add(vazio2);
+
+Monta o card na ordem: espaço vazio, botão próximo, espaço vazio. O botão fica centralizado.
+
+java
+painelBotoes.add(cardEscolha, "ESCOLHA");
+painelBotoes.add(cardProximo, "PROXIMO");
+return painelBotoes;
+
+Empilha os dois cards dentro do painel. `"ESCOLHA"` e `"PROXIMO"` são os nomes usados para chamar cada um. Retorna o painel pronto.
+
+---
+
+## carregarEvento()
+
+java
+eventoAtual = jogo.proximoEvento();
+textoEvento.setText(eventoAtual.getDescricao());
+
+Busca o próximo evento do jogo e exibe a descrição na caixa de texto.
+
+java
+Escolha[] escolhas = eventoAtual.getEscolhas();
+for (int i = 0; i < botoes.length; i++) {
+    if (i < escolhas.length) {
+        botoes[i].setText(escolhas[i].texto);
+        botoes[i].setVisible(true);
+    } else {
+        botoes[i].setVisible(false);
+    }
+}
+
+Percorre os 3 botões. Se o evento tem escolha para aquela posição, mostra o botão com o texto certo. Se não tem, esconde o botão — assim eventos com 2 escolhas não mostram o terceiro botão vazio.
+
+java
+labelStatus.setText(jogo.statusRodada());
+atualizarBarras();
+
+Atualiza o texto de rodada e os valores das barras.
+
+java
+cardBotoes.show(painelBotoes, "ESCOLHA");
+
+Manda o `CardLayout` mostrar o card dos três botões de escolha.
+
+java
+// Atualiza a tela para apagar o que estava antes e mostrar o novo conteúdo
+janela.repaint();
+
+Força o Swing a redesenhar a janela inteira — garante que nada do estado anterior sobra na tela.
+
+---
+
+## escolher()
+
+java
+Escolha escolha = eventoAtual.getEscolhas()[index];
+jogo.aplicarEscolha(escolha);
+textoEvento.setText(escolha.consequencia);
+
+Pega a escolha pelo número do botão clicado, aplica no jogo e mostra a consequência na caixa de texto.
+
+java
+atualizarBarras();
+
+Atualiza as barras com os novos valores após a escolha.
+
+java
+cardBotoes.show(painelBotoes, "PROXIMO");
+
+Troca o card — esconde os três botões de escolha e mostra o botão "Próxima Rodada" no meio.
+
+java
+// Atualiza a tela para apagar o que estava antes e mostrar o novo conteúdo
+janela.repaint();
+verificarFimDeJogo();
+
+Redesenha a tela e verifica se o jogo acabou.
+
+---
+
+## verificarFimDeJogo()
+
+java
+if (!jogo.isFimDeJogo()) return;
+
+Se o jogo ainda não acabou, sai do método imediatamente sem fazer nada.
+
+java
+JOptionPane.showMessageDialog(janela,
+    "🏁 Fim de jogo!\n\n" + jogo.statusRodada(),
+    "GAME OVER.",
+    JOptionPane.INFORMATION_MESSAGE);
+janela.dispose();
+
+Mostra um popup com a mensagem de fim de jogo e fecha a janela sem encerrar o programa inteiro.
+
+---
+
+## criarBarra()
+
+java
+JProgressBar bar = new JProgressBar(0, 100);
+
+Cria uma barra que vai de 0 a 100.
+
+java
+bar.setStringPainted(true);
+
+Faz o texto aparecer dentro da barra. Sem isso a string fica oculta.
+
+java
+bar.setFont(new Font("Arial", Font.BOLD, 12));
+return bar;
+
+Define a fonte do texto interno e retorna a barra pronta.
+
+---
+
+## atualizarBarras() e atualizarBarra()
+
+java
+private void atualizarBarras() {
+    atualizarBarra(barAmbiente,  jogo.getAmbiente(),  "Sustentabilidade e Meio Ambiente");
+    atualizarBarra(barEconomia,  jogo.getEconomia(),  "Fundos Disponíveis");
+    atualizarBarra(barPopulacao, jogo.getPopulacao(), "Satisfação da População");
+    atualizarBarra(barAprovacao, jogo.getAprovacao(), "Aprovação Pública");
+}
+
+Chama `atualizarBarra` para cada uma das quatro barras, passando a barra, o valor atual do jogo e o nome que aparece nela.
+
+java
+bar.setValue(valor);
+
+Define o valor numérico da barra — quanto ela está preenchida.
+
+java
+bar.setString(nome + ": " + valor);
+
+Define o texto exibido dentro da barra, por exemplo: `"Fundos Disponíveis: 65"`.
+
+java
+bar.setForeground(corPorValor(valor));
+
+Muda a cor da barra de acordo com o valor atual.
+
+---
+
+## corPorValor()
+
+java
+if (valor > LIMITE_VERDE)   return Color.GREEN;
+if (valor > LIMITE_AMARELO) return Color.YELLOW;
+return Color.RED;
+
+Retorna verde se acima de 70, amarelo se entre 30 e 70, vermelho se abaixo de 30.
+
+---
+
+## estilizarBotao()
+
+java
+botao.setFocusPainted(false);
+
+Remove a borda pontilhada que aparece quando o botão está selecionado pelo teclado. Deixa mais limpo visualmente.
+
+java
+botao.setFont(new Font("Arial", Font.BOLD, 14));
+botao.setBackground(COR_BOTAO);
+botao.setForeground(Color.WHITE);
+
+Define fonte, cor de fundo azul e texto branco para o botão.
