@@ -50,6 +50,10 @@ public class Jogo {
     private List<Evento> eventoAmbienteAlto;
     private List<Evento> eventoEconimiaAlta;
     private List<Evento> eventoEconimiaBaixa;
+    private List<Evento> eventoAprovacaoBaixa;
+    private List<Evento> eventoAmbienteBaixo;
+    private List<Evento> eventoPopulacaoAlta;
+    private List<Evento> eventoPopulacaoBaixa;
 
     // Chama os métodos na classe "BancoDeEscolhas" para inicializar todos os Eventos Normais que existem no Jogo e armazenarem nas variáveis já criadas anteriormente
     public Jogo() {
@@ -58,56 +62,78 @@ public class Jogo {
         eventoAmbienteAlto = BancoDeEscolhas.eventoAmbienteAlto();
         eventoEconimiaAlta = BancoDeEscolhas.eventoEconomiaAlta();
         eventoEconimiaBaixa = BancoDeEscolhas.eventoEconomiaBaixa();
+        eventoAprovacaoBaixa = BancoDeEscolhas.eventoAprovacaoBaixa();
+        eventoAmbienteBaixo = BancoDeEscolhas.eventoAmbienteBaixo();
+        eventoPopulacaoAlta = BancoDeEscolhas.eventoPopulacaoAlta();
+        eventoPopulacaoBaixa = BancoDeEscolhas.eventoPopulacaoBaixa();
     }
     
     // Aplica as Consequências da Escolha do Jogador
     public void aplicarEscolha(Escolha e) {
-        ambiente += e.ambiente;
-        economia += e.economia;
-        populacao += e.populacao;
-        aprovacao += e.aprovacao;
+        ambiente += e.getAmbiente();
+        economia += e.getEconomia();
+        populacao += e.getPopulacao();
+        aprovacao += e.getAprovacao();
         limitarValores();
         rodada++;
     }
 
     // Método para Calcular qual será o próximo Evento
     public Evento proximoEvento() {
-
     List<Evento> eventosPossiveis = new ArrayList<>();
 
-        // Eventos especiais
+        // Eventos Especiais
 
         // Evento Especial Aprovação alta
         if (rodada % 3 == 0 && aprovacao >= 70) {
             eventosPossiveis.addAll(eventoAprovacaoAlta);
         }
 
-        //Eventos Especial Meio Ambiente Alto
+        // Evento Especial Aprovação baixa
+        if (rodada % 3 == 0 && aprovacao <= 45) {
+            eventosPossiveis.addAll(eventoAprovacaoBaixa);
+        }
+
+        // Eventos Especial Meio Ambiente Alto
         if (rodada % 2 == 0 && ambiente >= 70) {
             eventosPossiveis.addAll(eventoAmbienteAlto);
         }
 
-        //Evento Especial Economia Alta
+        // Evento Especial Meio Ambiente Baixo
+        if (rodada % 2 == 0 && ambiente <= 45) {
+            eventosPossiveis.addAll(eventoAmbienteBaixo);
+        }
+
+        // Evento Especial Economia Alta
         if (rodada % 3 == 0 && economia >= 70) {
             eventosPossiveis.addAll(eventoEconimiaAlta);
         }
 
-        //Evento Especial Economia Baixa
+        // Evento Especial Economia Baixa
         if (rodada % 2 == 0 && economia <= 45) {
             eventosPossiveis.addAll(eventoEconimiaBaixa);
         }
 
-        // Sorteia evento especial
+        // Evento Especial População Alta
+        if (rodada % 3 == 0 && populacao >= 70) {
+            eventosPossiveis.addAll(eventoPopulacaoAlta);
+        }
+
+        // Evento Especial População Baixa
+        if (rodada % 2 == 0 && populacao <= 45) {
+            eventosPossiveis.addAll(eventoPopulacaoBaixa);
+        }
+
+        // Sorteia Eventos Especiais
         if (!eventosPossiveis.isEmpty() && random.nextInt(100) < 45) {
             return eventosPossiveis.get(random.nextInt(eventosPossiveis.size()));
         }
 
-        // Eventos normais sem repetição
+        // Eventos Normais sem repetição
         if (totalEvento >= eventos.size()) {
             Collections.shuffle(eventos);
             totalEvento = 0;
         }
-
         return eventos.get(totalEvento++);
     }
 
