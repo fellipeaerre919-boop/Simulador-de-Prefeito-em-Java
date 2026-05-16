@@ -9,22 +9,22 @@ public class BancoDeEscolhas {
 
         eventos.add(new Evento("Uma grande indústria de montagem de carros elétricos quer se instalar às margens do principal rio da cidade, a montadora estima que vai ter que contratar até 3% da população, só com essa notícia pessoas das cidades vizinhas já começam a vir para sua cidade em busca dos futuros empregos existe uma parte da população que teme que essa montadora polua de alguma forma o rio, um grupo de analistas ambientais contratados pela montadora diz que o impacto ambiental vai ser baixo e ativistas ambientais são contra a instalação da montadora alegando que a montadora vai despejar químicos nos rios.",
 
-            new Escolha("Aprovar com regras ambientais especiais", -1, +15, +4, +5,
-            "A montadora é instalada com sucesso, a regulação se faz presente, isso aumenta o custo de produção e a montadora diminuiu o tamanho da construção originalmente prevista o que diminui a quantidade de empregos originalmente previstos, a respeito ao meio ambiente como a empresa é uma montadora naturalmente poucos resíduos são formados, a regulação se demonstra redundante.\n\n -1 de Meio Ambiente \n +15 de Fundos Econômicos \n +4 de População \n +5 de Aprovação Pública"),
+            new Escolha("Aprovar com regras ambientais especiais", -1, +5, +1, +1,
+            "A montadora é instalada com sucesso, a regulação se faz presente, isso aumenta o custo de produção e a montadora diminuiu o tamanho da construção originalmente prevista o que diminui a quantidade de empregos originalmente previstos, a respeito ao meio ambiente como a empresa é uma montadora naturalmente poucos resíduos são formados, a regulação se demonstra redundante.\n\n -1 de Meio Ambiente \n +5 de Fundos Econômicos \n +1 de População \n +1 de Aprovação Pública"),
 
             new Escolha("Aprovar com o regimento padrão", -2, +15, +4, +5,
-            "A economia cresce快速mente, 3% da população foi contratada, ao contrário do que os críticos diziam a montadora sequer mexe com químicos, uma montadora apenas monta e seus resíduos são poucos e pontuais .\n\n -2 de Meio Ambiente \n +15 de Fundos Econômicos \n +4 de População \n +5 de Aprovação Pública"),
+            "A economy cresce rapidamente, 3% da população foi contratada, ao contrário do que os críticos diziam a montadora sequer mexe com químicos, uma montadora apenas monta e seus resíduos são poucos e pontuais .\n\n -2 de Meio Ambiente \n +15 de Fundos Econômicos \n +4 de População \n +5 de Aprovação Pública"),
 
-            new Escolha("Negar instalação", 0, 0, -8, -10,
-            "Você nega a montadora, perde investimentos. Parte da população critica a decisão.\n\n 0 de fundos econômicos\n -8 de População \n -10 de Aprovação Pública")
+            new Escolha("Negar instalação", 0, -4, -8, -10,
+            "Você nega a montadora, perde investimentos. Parte da população critica a decisão.\n\n -4 de Fundos Econômicos\n -8 de População \n -10 de Aprovação Pública")
         ));
 
         eventos.add(new Evento("O sistema de saneamento está sobrecarregado e começa a falhar em várias regiões, as falhas estão focadas em áreas específicas e tem algumas poucas falhas que se demonstram estruturais.",
-            new Escolha("Reforma completa do sistema, sem se preocupar com o orçamento", +12, -8, +9, +7,
-            "A cidade dá um salto em qualidade de vida, reduzindo doenças e poluição.\n\n +12 de Meio Ambiente \n -8 de Fundos Econômicos \n +9 de População \n +7 de Aprovação Pública"),
+            new Escolha("Reforma completa do sistema, sem se preocupar com o orçamento", +10, -15, +3, +7,
+            "A cidade dá um salto em qualidade de vida, reduzindo doenças e poluição.\n\n +10 de Meio Ambiente \n -15 de Fundos Econômicos \n +3 de População \n +7 de Aprovação Pública"),
 
-            new Escolha("Melhorias pontuais focando nas áreas com defeitos não estruturais", +5, -5, +5, +3,
-            "A situação melhora, mas ainda há áreas críticas que estão ligadas com a parte estrutural do sistema de esgoto.\n\n +5 de Meio Ambiente \n -5 de Fundos Econômicos \n +5 de População \n +3 de Aprovação Pública"),
+            new Escolha("Melhorias pontuais focando nas áreas com defeitos não estruturais", +5, -5, +3, +3,
+            "A situação melhora, mas ainda há áreas críticas que estão ligadas com a parte estrutural do sistema de esgoto.\n\n +5 de Meio Ambiente \n -5 de Fundos Econômicos \n +3 de População \n +3 de Aprovação Pública"),
 
             new Escolha("Adiar investimentos", -12, 0, -8, -8,
             "A crise se agrava, afetando diretamente o meio ambiente e a saúde da população, fazendo com que muitos saiam da sua cidade.\n\n -12 de Meio Ambiente\n -8 de População \n -8 de Aprovação Pública")
@@ -70,11 +70,11 @@ public class BancoDeEscolhas {
             new Escolha("Reprimir para que não aumente", -4, 0, -2, -12,
             "Os protestos são dispersados à força e sua imagem piora drasticamente.\n\n -4 de Meio Ambiente \n -2 de População \n -12 de Aprovação Pública"),
 
-            new Escolha("Ignorar, uma hora os protestos vão dispersar", 0, 0, -9, -9,
+            new Escolha("Ignorar, uma hora os protestos vão dispensar", 0, 0, -9, -9,
             "Os protestos crescem, algumas pessoas saem da sua cidade e os protestos se dispersam.\n\n -9 de População \n -9 de Aprovação Pública")
         ));
 
-        eventos.add(new Evento("Sua cidade sofre com uma crise energética, você tem que construir uma nova fonte de energia trocando as antigas termoelétricas da sua cidade, levando em conta o custo, meio ambiente e a área que cada fonte energética precisa para gerar energia você escolherá a que melhor cabe para sua cidade.",
+        eventos.add(new Evento("Sua cidade suffers com uma crise energética, você tem que construir uma nova fonte de energia trocando as antigas termoelétricas da sua cidade, levando em conta o custo, meio ambiente e a área que cada fonte energética precisa para gerar energia você escolherá a que melhor cabe para sua cidade.",
             new Escolha("Energia solar, uma grande fazenda solar", -5, -10, 0, +8,
             "Você constrói uma grande fazenda solar, cerca de 10 km² são desmatados para que ela fosse construída, os custos são altíssimos, tem poucos retornos, a fazenda solar vai demorar 4 anos para se pagar, o que é mais do que o seu mandato\n\n -5 de Meio Ambiente \n -10 de Fundos Econômicos \n +8 de Aprovação Pública"),
 
@@ -86,8 +86,8 @@ public class BancoDeEscolhas {
         ));
 
         eventos.add(new Evento("Um desastre ambiental ameaça áreas da cidade.",
-            new Escolha("Resposta rápida, priorizar vidas a todo o custo ", +12, -3, -6, +30,
-            "Quase ninguém foi diretamente afetado, vidas foram salvas, as pessoas perderam suas casas, o custo foi alto e você vira um herói da cidade.\n\n +12 de Meio Ambiente \n -3 de Fundos Econômicos \n -6 de População \n +30 de Aprovação Pública"),
+            new Escolha("Resposta rápida, priorizar vidas a todo o custo ", -3, -15, 0, +30,
+            "Quase ninguém foi diretamente afetado, vidas foram salvas, as pessoas perderam suas casas, o custo foi alto e você vira um herói da cidade.\n\n -3 de Meio Ambiente \n -15 de Fundos Econômicos \n 0 de População \n +30 de Aprovação Pública"),
 
             new Escolha("Resposta eficiente, salvar o máximo possível de tudo", +5, -5, -3, +10,
             "A infraestrutura da cidade é salva, as pessoas também, mas nem todas.\n\n +5 de Meio Ambiente \n -5 de Fundos Econômicos \n -3 de População \n +10 de Aprovação Pública"),
@@ -98,21 +98,21 @@ public class BancoDeEscolhas {
 
         eventos.add(new Evento("A cidade discute implementar coleta seletiva de lixo.",
             new Escolha("Implementar totalmente", +10, -6, +7, +8,
-            "A cidade reduces drasticamente o lixo e melhora a reciclagem.\n\n +10 de Meio Ambiente \n -6 de Fundos Econômicos \n +7 de População \n +8 de Aprovação Pública"),
+            "A cidade reduz drasticamente o lixo e melhora a reciclagem.\n\n +10 de Meio Ambiente \n -6 de Fundos Econômicos \n +7 de População \n +8 de Aprovação Pública"),
 
             new Escolha("Projeto piloto", +5, -3, +5, +4,
             "Algumas regiões já mostram resultados positivos.\n\n +5 de Meio Ambiente \n -3 de Fundos Econômicos \n +5 de População \n +4 de Aprovação Pública"),
 
             new Escolha("Ignorar", -8, 0, -5, -6,
-            "O acúmulo de lixo se torna um problema crescente.\n\n -8 de Meio Ambiente\n -5 de População\n -6 de Aprovação Pública")
+            "O acúmulo de lixo se torna um problema crescent.\n\n -8 de Meio Ambiente\n -5 de População\n -6 de Aprovação Pública")
         ));
         
         eventos.add(new Evento("Há uma proposta de incentivo à energia solar residencial.",
             new Escolha("Bancar instalação", +10, -10, +8, +8,
             "A cidade se torna referência em energia limpa.\n\n +10 de Meio Ambiente\n -10 de Fundos Econômicos\n +8 de População\n +8 de Aprovação Pública"),
 
-            new Escolha("Incentivo, removendo dificuldades", +6, -2, +6, +5,
-            "Parte da população adere à ideia.\n\n +6 de Meio Ambiente\n -2 de Fundos Econômicos\n +6 de População\n +5 de Aprovação Pública"),
+            new Escolha("Incentivo, removendo dificuldades", +6, +5, +6, +5,
+            "Parte da população adere à ideia.\n\n +6 de Meio Ambiente\n +5 de Fundos Econômicos\n +6 de População\n +5 de Aprovação Pública"),
 
             new Escolha("Não incentivar", -5, 0, -4, -4,
             "A cidade fica para trás na transição energética.\n\n -5 de Meio Ambiente\n -4 de População\n -4 de Aprovação Pública")
@@ -125,16 +125,16 @@ public class BancoDeEscolhas {
             new Escolha("Campanhas educativas", +5, -1, +5, +5,
             "A população reduz o consumo parcialmente.\n\n +5 de Meio Ambiente\n -1 de Fundos Econômicos\n +5 de População\n +5 de Aprovação Pública"),
 
-            new Escolha("Aumentar os reservatórios", +5, -5, +10, +10,
-            "A longo prazo a solução não funcionou. A cidade caminha para uma crise hídrica.\n\n +5 de Meio Ambiente \n -5 de Fundos Econômicos \n +10 de População \n +10 de Aprovação Pública")
+            new Escolha("Aumentar os reservatórios", +3, -5, +10, +10,
+            "A cidade caminha para uma crise hídrica.\n\n +3 de Meio Ambiente \n -5 de Fundos Econômicos \n +10 de População \n +10 de Aprovação Pública")
         ));
 
         eventos.add(new Evento("Um escândalo político envolvendo membros do seu governo vem à tona.",
             new Escolha("Investigar e punir os responsáveis", 0, -3, +5, +10,
             "Você mostra firmeza e transparência, recuperando a confiança da população, mesmo com custos políticos.\n\n -3 de Fundos Econômicos\n +5 de População\n +10 de Aprovação Pública"),
 
-            new Escolha("Abafar o caso com suborno", 0, -5, -3, -10,
-            "A verdade começa a vazar e sua credibilidade despenca rapidamente.\n\n -5 de Fundos Econômicos \n -3 de População \n -10 de Aprovação Pública"),
+            new Escolha("Abafar o caso com suborno", 0, -5, -3, -3,
+            "A verdade começa a vazar e sua credibilidade despenca rapidamente.\n\n -5 de Fundos Econômicos \n -3 de População \n -3 de Aprovação Pública"),
 
             new Escolha("Negar envolvimento", 0, 0, -5, -8,
             "A população fica desconfiada e sua imagem é abalada.\n\n -5 de População\n -8 de Aprovação Pública")
@@ -163,14 +163,14 @@ public class BancoDeEscolhas {
         ));
 
         eventos.add(new Evento("O sistema de saúde da cidade está sobrecarregado.",
-            new Escolha("Investir fortemente na saúde", -3, -10, +10, +8,
-            "A qualidade de atendimento melhora e a população se sente mais segura.\n\n -3 de Meio Ambiente\n -10 de Fundos Econômicos\n +10 de População\n +8 de Aprovação Pública"),
+            new Escolha("Investir fortemente na saúde", +3, -10, +10, +8,
+            "A qualidade de atendimento melhora e a população se sente mais segura.\n\n +3 de Meio Ambiente\n -10 de Fundos Econômicos\n +10 de População\n +8 de Aprovação Pública"),
 
-            new Escolha("Melhorias básicas", -1, -3, +5, +4,
-            "A situação melhora parcialmente, mas ainda há filas e problemas.\n\n -1 de Meio Ambiente\n -3 de Fundos Econômicos\n +5 de População\n +4 de Aprovação Pública"),
+            new Escolha("Melhorias básicas", +1, -3, +5, +4,
+            "A situação melhora parcialmente, mas ainda há filas e problemas.\n\n +1 de Meio Ambiente\n -3 de Fundos Econômicos\n +5 de População\n +4 de Aprovação Pública"),
 
             new Escolha("Incentivar fiscalmente a saúde privada", -3, +15, -5, +4,
-            "A saúde melhora, a economia também, porém nem todos podem pagar.\n\n -3 de Meio Ambiente \n  +15 de Fundos Econômicos \n -5 de População \n +4 de Aprovação Pública")
+            "A saúde melhora, a economia também, porém nem todos podem pagar.\n\n -3 de Meio Ambiente \n +15 de Fundos Econômicos \n -5 de População \n +4 de Aprovação Pública")
         ));
 
         eventos.add(new Evento("O governo lhe faz um repasse equivalente a 15 pontos de fundos econômicos, o que fazer?",
@@ -197,7 +197,7 @@ public class BancoDeEscolhas {
             "Você aproveita o apoio popular para investir em melhorias. A população fica satisfeita, mas os custos são elevados.\n\n +4 de Meio Ambiente\n -10 de Fundos Econômicos\n +10 de População\n +8 de Aprovação Pública"),
 
             new Escolha("Aprovar reformas econômicas estratégicas", -1, +15, +5, +6,
-            "Você utiliza o momento para fortalecer a economia, mantendo boa aprovação.\n\n -1 de Meio Ambiente\n +15 de Fundos Econômicos\n +5 de População\n +6 de Aprovação Pública"),
+            "Você utiliza o moment para fortalecer a economia, mantendo boa aprovação.\n\n -1 de Meio Ambiente\n +15 de Fundos Econômicos\n +5 de População\n +6 de Aprovação Pública"),
 
             new Escolha("Manter a estabilidade e evitar riscos", 0, +3, +2, +2,
             "Você opta por não arriscar, mantendo a cidade estável, mas sem grandes avanços.\n\n +3 de Fundos Econômicos\n +2 de População\n +2 de Aprovação Pública")
@@ -210,6 +210,7 @@ public class BancoDeEscolhas {
     public static List<Evento> eventoAprovacaoBaixa() {
         List<Evento> eventoAprovacaoBaixa = new ArrayList<>();
 
+        // Mantidos os textos e proporções lógicas baseadas nas regras do Banco de Escolhas original
         eventoAprovacaoBaixa.add(new Evento("URGENTE!!\n\nA população perdeu a fé no seu mandato. Protestos pedindo sua saída começam a ganhar força nas ruas!",
         
             new Escolha("Fazer um pronunciamento oficial prometendo bônus e auxílios", 0, -10, 0, +15,
@@ -285,14 +286,14 @@ public class BancoDeEscolhas {
             "Você reinveste na cidade, melhorando serviços e qualidade de vida. A população aprova, mas os cofres diminuem.\n\n -10 de Fundos Econômicos\n +12 de População\n +10 de Aprovação Pública"),
 
             new Escolha("Atrair mais empresas e ampliar a economia", -12, +20, +8, +7,
-            "Novos negócios chegam à cidade, aumentando ainda mais a economia, mas com impacto ambiental.\n\n -12 de Meio Ambiente\n +20 de Fundos Econômicos\n +8 de População\n +7 de Aprovação Pública"),
+            "Novos negócios chegam à cidade, aumentando ainda mais a economia, mas com impacto ambient.\n\n -12 de Meio Ambiente\n +20 de Fundos Econômicos\n +8 de População\n +7 de Aprovação Pública"),
 
             new Escolha("Manter a situação atual", 0, +5, +2, +3,
             "Você mantém a estabilidade, garantindo crescimento moderado sem grandes riscos.\n\n +5 de Fundos Econômicos\n +2 de População\n +3 de Aprovação Pública")
         ));
 
         return eventoEconommiaAlta;
-    }  
+    }
     
     // Evento Economia Baixa 
     public static List<Evento> eventoEconomiaBaixa() {
